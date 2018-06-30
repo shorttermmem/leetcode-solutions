@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "two_sum.h"
 
-
 #include <iostream>
 
 using namespace std;

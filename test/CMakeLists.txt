@@ -3,7 +3,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
-add_subdirectory(src)
-
+# Test: Generates CTestTestfile.cmake for ctest app
 enable_testing()
-add_subdirectory(test)
+add_subdirectory(two_sum)
