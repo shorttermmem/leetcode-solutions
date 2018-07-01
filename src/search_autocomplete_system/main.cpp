@@ -236,7 +236,7 @@ int main(){
     list<string> param_2 = obj->input(' ');
     list<string> param_3 = obj->input('a');
 
-    for_each(param_1.begin(), param_1.end(), [](auto& s){
+    for_each(param_1.begin(), param_1.end(), [](string& s){
         cout << s << endl;
     });
 
