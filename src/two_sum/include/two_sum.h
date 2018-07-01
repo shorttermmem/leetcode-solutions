@@ -27,7 +27,7 @@ namespace solution{
 
 class TwoSum {
 public:
-    /**<
+    /**
     find two indices of a vector whose sum equal to target.
     @return vector of two indices
     @param nums vector of integer to be searched

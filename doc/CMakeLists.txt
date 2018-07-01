@@ -4,12 +4,13 @@
 cmake_minimum_required(VERSION 3.0)
 
 # This variable should contain the argument of the project call in the main CMakeLists.txt
+set(DOCUMENT_TARGET_NAME "doc")
 set(ORIGINAL_PROJECT_NAME "leetcode")
 project(${ORIGINAL_PROJECT_NAME}Docs)
 
 include(GNUInstallDirs)
 
-find_package(Doxygen QUIET)
+find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
     # This variables are used inside the Doxyfile.in template
@@ -25,8 +26,10 @@ if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
     # The dox target will generate the doxygen documentation in ${DOXYGEN_BUILD_DIR}
-    add_custom_target(dox COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-                        COMMENT "Generating doxygen documentation in ${DOXYGEN_BUILD_DIR}")
+    add_custom_target(${DOCUMENT_TARGET_NAME} 
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        COMMENT "Generating doxygen documentation in ${DOXYGEN_BUILD_DIR}"
+    )
 
     # Note: the install will install the documentation if present,
     # but it will not trigger a regeneration of the documentation if it is outdated
