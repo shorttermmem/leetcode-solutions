@@ -11,7 +11,7 @@ class AutocompleteSystem {
 public:
     AutocompleteSystem(vector<string> sentences, vector<int> times) {
   
-        for (int i = 0; i < times.size(); ++i)
+        for (unsigned int i = 0; i < times.size(); ++i)
         {
             m_trie.insert(sentences[i], times[i]);
         }
@@ -100,7 +100,7 @@ private:
         {
             struct TrieNode *cur = root;
             
-            for (int i = 0; i < key.length(); ++i)
+            for (unsigned int i = 0; i < key.length(); ++i)
             {
                 int index = getIndexByChar(key[i]);
                 
@@ -236,9 +236,10 @@ int main(){
     list<string> param_2 = obj->input(' ');
     list<string> param_3 = obj->input('a');
 
-    for_each(param_1.begin(), param_1.end(), [](string& s){
-        cout << s << endl;
-    });
+    for(auto&& p : param_1)
+    {
+        cout << p << endl;
+    };
 
     return 0;
 }
