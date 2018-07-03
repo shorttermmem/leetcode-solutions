@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.0)
 # This variable should contain the argument of the project call in the main CMakeLists.txt
 set(DOCUMENT_TARGET_NAME "doc")
 set(ORIGINAL_PROJECT_NAME "leetcode")
-project(${ORIGINAL_PROJECT_NAME}_${DOCUMENT_TARGET_NAME})
+project(${ORIGINAL_PROJECT_NAME}Docs)
 
 include(GNUInstallDirs)
 
@@ -16,7 +16,6 @@ if(DOXYGEN_FOUND)
     # This variables are used inside the Doxyfile.in template
     set(DOXYGEN_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE STRING "Build directory for Doxygen html output (absolute).")
     set(DOXYGEN_INSTALL_DIR "${CMAKE_INSTALL_DATAROOTDIR}/doc/${ORIGINAL_PROJECT_NAME}" CACHE STRING "Installation directory for Doxygen html output (relative to CMAKE_INSTALL_PREFIX).")
-    
     get_filename_component(ORIGINAL_PROJECT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" PATH)
     set(DOXYGEN_SOURCE_DIR "${ORIGINAL_PROJECT_DIR}/src")
     set(DOXYGEN_DOC_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
