@@ -7,13 +7,12 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_POLICY_DEFAULT_CMP0048 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0046 NEW)
 
+option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
+
 # External & Setup
 include(cmake/utilities.cmake)
 include(cmake/external.cmake)
 include(cmake/setup.cmake)
-
-# Shared/Dynamic or Static library?
-option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
 # Configurerun-path dependent libraries
 option(ENABLE_RPATH "Enable RPATH for this library" ON)

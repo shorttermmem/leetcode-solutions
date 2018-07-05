@@ -6,7 +6,16 @@ download_project(PROJ                googletest
                  UPDATE_DISCONNECTED 1
                  QUIET
 )
+SET(BUILD_GTEST ON CACHE BOOL "")
+SET(BUILD_GMOCK OFF CACHE BOOL "")
+SET(gtest_build_tests OFF CACHE BOOL "")
+SET(gtest_build_samples OFF CACHE BOOL "")
+SET(gmock_build_tests ON CACHE BOOL "")
+SET(gtest_force_shared_crt ON CACHE BOOL "")
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+# release-1.8.0 fails on VS2017
+target_compile_definitions(gtest PRIVATE GTEST_HAS_TR1_TUPLE=0)
+target_compile_definitions(gtest_main PRIVATE GTEST_HAS_TR1_TUPLE=0)
 
 download_project(PROJ                gflags
                  GIT_REPOSITORY      https://github.com/gflags/gflags.git
@@ -15,7 +24,6 @@ download_project(PROJ                gflags
                  QUIET
 )
 add_subdirectory(${gflags_SOURCE_DIR} ${gflags_BINARY_DIR})
-#list(APPEND CMAKE_PREFIX_PATH ${gflags_BINARY_DIR}) 
 
 download_project(PROJ                glog
                  GIT_REPOSITORY      https://github.com/google/glog
