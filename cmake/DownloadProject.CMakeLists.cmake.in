@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 2.8.2)
 
 project(${DL_ARGS_PROJ}-download NONE)
 
+set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+
 include(ExternalProject)
 ExternalProject_Add(${DL_ARGS_PROJ}-download
                     ${DL_ARGS_UNPARSED_ARGUMENTS}

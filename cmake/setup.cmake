@@ -28,3 +28,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
+
+# Ensure portability
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
 
 set(package_name "leetcode")
-project(package_name VERSION 0.1.0 LANGUAGES CXX)
+project(${package_name} VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_POLICY_DEFAULT_CMP0048 NEW)
