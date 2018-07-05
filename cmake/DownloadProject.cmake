@@ -170,7 +170,14 @@ function(download_project)
     if(result)
         message(FATAL_ERROR "CMake step for ${DL_ARGS_PROJ} failed: ${result}")
     endif()
-    execute_process(COMMAND ${CMAKE_COMMAND} --build . -- -j8
+
+    if(WIN32)
+        set(MULTITHREAD "/maxcpucount:8")
+    elseif(UNIX)
+        set(MULTITHREAD "-j8")
+    endif()
+
+    execute_process(COMMAND ${CMAKE_COMMAND} --build . -- ${MULTITHREAD}
                     RESULT_VARIABLE result
                     ${OUTPUT_QUIET}
                     WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
