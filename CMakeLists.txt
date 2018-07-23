@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
 
+### Hunter snapshot that will be used ###
+include("cmake/HunterGate.cmake")
+HunterGate(
+    URL "https://github.com/ruslo/hunter/archive/v0.23.0.tar.gz"
+    SHA1 "4c27150185a31de4f65cfbb787c9561473c5b435"
+)
+
 set(package_name "leetcode")
 project(${package_name} VERSION 0.1.0 LANGUAGES CXX)
 
@@ -12,10 +19,22 @@ option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
 # External & Setup
 include(cmake/utilities.cmake)
-include(cmake/external.cmake)
+
+### Download dependencies ###
+hunter_add_package(GTest)
+hunter_add_package(gflags)
+hunter_add_package(glog)
+hunter_add_package(benchmark)
+
+### Find dependencies ###
+find_package(GTest CONFIG REQUIRED)
+find_package(gflags CONFIG REQUIRED)
+find_package(glog CONFIG REQUIRED)
+find_package(benchmark CONFIG REQUIRED)
+
 include(cmake/setup.cmake)
 
-# Configurerun-path dependent libraries
+# Configure run-path dependent libraries
 option(ENABLE_RPATH "Enable RPATH for this library" ON)
 mark_as_advanced(ENABLE_RPATH)
 include(cmake/AddInstallRPATHSupport.cmake)
