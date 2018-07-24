@@ -221,14 +221,7 @@ private:
 int main(){
 
     vector<string> sentences{"i love you","island","iroman","i love leetcode"};
-    vector<int> times(5, 1);
-
-    int arr2[10] = {1,2,3,4,5,6,7,7,8,9};
-
-
-    vector<int> arr(10);
-
-    cout << sentences[0] << '\n';
+    vector<int> times(sentences.size(), 1);
 
     AutocompleteSystem* obj = new AutocompleteSystem(sentences, times);
 
@@ -236,7 +229,7 @@ int main(){
     list<string> param_2 = obj->input(' ');
     list<string> param_3 = obj->input('a');
 
-    for(auto&& p : param_1)
+    for(auto&& p : param_3)
     {
         cout << p << endl;
     };
