@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "two_sum.h"
-
+#include <gmock/gmock.h>
 #include <iostream>
+#include "two_sum.h"
 
 using namespace std;
 

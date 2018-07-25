@@ -2,27 +2,26 @@
 get_current_folder_name(FOLDER_NAME)
 set(TEST_TARGET_NAME ${FOLDER_NAME}_test)
 
-set(${TEST_TARGET_NAME}_SRC
+set(${FOLDER_NAME}_SRC
     two_sum_test.cpp    
 )
 
-set(${TEST_TARGET_NAME}_HDR
+set(${FOLDER_NAME}_HDR
 )
 
 # Compiler
 add_executable(${TEST_TARGET_NAME} 
-    ${${TEST_TARGET_NAME}_SRC} 
-    ${${TEST_TARGET_NAME}_HDR}
+    ${${FOLDER_NAME}_SRC} 
+    ${${FOLDER_NAME}_HDR}
 )
 
 # Linker
 target_link_libraries(
     ${TEST_TARGET_NAME}
     two_sum
-    GTest::main
+    GMock::main
     )
 
-#
 add_test(
     NAME ${TEST_TARGET_NAME}
     COMMAND ${TEST_TARGET_NAME}
