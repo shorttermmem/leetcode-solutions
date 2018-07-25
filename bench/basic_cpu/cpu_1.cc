@@ -119,7 +119,7 @@ BENCHMARK(BM_vector_push_back);
 
 static void BM_MAD(benchmark::State& state) {
   std::vector<int> stair(1000000, 1);
-  int sum;
+  int sum = 0;
   for (auto i : stair)
     benchmark::DoNotOptimize(sum += i);
 }
