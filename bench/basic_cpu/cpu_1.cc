@@ -35,6 +35,9 @@ static void BM_Factorial(benchmark::State& state) {
 }
 BENCHMARK(BM_Factorial);
 BENCHMARK(BM_Factorial)->UseRealTime();
+BENCHMARK(BM_Factorial)->Threads(8);
+BENCHMARK(BM_Factorial)->ThreadRange(1, 32);
+BENCHMARK(BM_Factorial)->ThreadPerCpu();
 
 static void BM_StringCreation(benchmark::State& state) {
   for (auto _ : state)
