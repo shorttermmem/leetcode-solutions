@@ -121,10 +121,10 @@ static void BM_vector_push_back(benchmark::State& state) {
 BENCHMARK(BM_vector_push_back);
 
 static void BM_MAD(benchmark::State& state) {
-  std::vector<int> stair(1000000, 1);
   int sum;
-  for (auto i : stair)
-    benchmark::DoNotOptimize(sum += i);
+  for (auto _ : state)
+    for (int i =0 ; i < 100000; ++i)
+      benchmark::DoNotOptimize(sum += i);
 }
 BENCHMARK(BM_MAD);
 
