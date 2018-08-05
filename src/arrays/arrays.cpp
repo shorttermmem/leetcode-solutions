@@ -7,7 +7,7 @@
 
 #include "arrays.h"
 
-using namespace ZZ;
+using namespace LS;
 using namespace std;
 
 struct Arrays::Impl{

@@ -8,7 +8,7 @@
 #include "arrays.h"
 
 using namespace std;
-using namespace ZZ;
+using namespace LS;
 
 static unique_ptr<Arrays> g_solutions{};
 
@@ -38,8 +38,8 @@ int main(int argc, char **argv){
     google::InitGoogleLogging(argv[0]);
     testing::InitGoogleTest(&argc, argv);
 
-    ZZFactory* factory = nullptr;
-    ZZ_RESULT res = ZZInit(ZZ_FULL_VERSION, &factory);
+    Factory* factory = nullptr;
+    LS_RESULT res = LSInit(LS_FULL_VERSION, &factory);
 
    // factory->CreateArrays(&(g_solutions.get());
 

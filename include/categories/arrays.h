@@ -26,7 +26,7 @@
 
 #include "shared_EXPORTS.h"
 
-namespace ZZ{ 
+namespace LS{ 
 
 class Arrays{
 public:
@@ -66,5 +66,5 @@ private:
     std::unique_ptr<Impl, void(*)(Impl*)> m_impl;
 };
 
-} // ZZ
+} // LS
 

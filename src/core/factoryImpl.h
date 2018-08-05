@@ -2,12 +2,12 @@
 
 #include "factory.h"
 #include "arrays.h"
-namespace ZZ
+namespace LS
 {
-    class ZZFactoryImpl : public ZZFactory
+    class FactoryImpl : public Factory
     {
     public:
-        ZZ_RESULT ZZ_STD_CALL CreateArrays(Arrays** ppArrays);
+        LS_RESULT LS_STD_CALL CreateArrays(Arrays** ppArrays);
     };
 
-} // namespace ZZ
+} // namespace LS

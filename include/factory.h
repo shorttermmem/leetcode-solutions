@@ -24,29 +24,29 @@
 #include "categories/arrays.h"
 
 #if defined(__cplusplus)
-namespace ZZ
+namespace LS
 {
 #endif
     //----------------------------------------------------------------------------------------------
-    // ZZFactory interface - singleton
+    // LSFactory interface - singleton
     //----------------------------------------------------------------------------------------------
 #if defined(__cplusplus)
-    class ZZ_NO_VTABLE ZZFactory
+    class LS_NO_VTABLE Factory
     {
     public:
-        virtual ZZ_RESULT  ZZ_STD_CALL CreateArrays(Arrays** ppArrays) = 0;
+        virtual LS_RESULT  LS_STD_CALL CreateArrays(Arrays** ppArrays) = 0;
    };
 #else
-    typedef struct ZZFactory ZZFactory;
+    typedef struct Factory Factory;
 
-    typedef struct ZZFactoryVtbl
+    typedef struct FactoryVtbl
     {
-        ZZ_RESULT          (ZZ_STD_CALL *CreateArrays)(ZZFactory* pThis, int** ppContext);
-    } ZZFactoryVtbl;
+        LS_RESULT          (LS_STD_CALL *CreateArrays)(Factory* pThis, int** ppContext);
+    } FactoryVtbl;
 
-    struct ZZFactory
+    struct Factory
     {
-        const ZZFactoryVtbl *pVtbl;
+        const FactoryVtbl *pVtbl;
     };
 
 #endif
@@ -58,37 +58,20 @@ namespace ZZ
 // shared library entry points
 //----------------------------------------------------------------------------------------------
 
-#define INIT_FUNCTION_NAME             "ZZInit"
-#define QUERY_VERSION_FUNCTION_NAME    "ZZQueryVersion"
+#define INIT_FUNCTION_NAME             "LSInit"
+#define QUERY_VERSION_FUNCTION_NAME    "LSQueryVersion"
 
 #if defined(__cplusplus)
 extern "C"
 {
-    typedef ZZ_RESULT    (ZZ_CDECL_CALL *ZZInit_Fn)(int version, ZZ::ZZFactory **ppFactory);
-    typedef ZZ_RESULT    (ZZ_CDECL_CALL *ZZQueryVersion_Fn)(int  *pVersion);
+    typedef LS_RESULT    (LS_CDECL_CALL *LSInit_Fn)(int version, LS::Factory **ppFactory);
+    typedef LS_RESULT    (LS_CDECL_CALL *LSQueryVersion_Fn)(int  *pVersion);
 
-    SHARED_EXPORT ZZ_RESULT ZZ_CDECL_CALL ZZInit(ZZ_uint64 version, ZZ::ZZFactory **ppFactory);
-    SHARED_EXPORT ZZ_RESULT ZZ_CDECL_CALL ZZQueryVersion(ZZ_uint64 *pVersion);
+    SHARED_EXPORT LS_RESULT LS_CDECL_CALL LSInit(LS_uint64 version, LS::Factory **ppFactory);
+    SHARED_EXPORT LS_RESULT LS_CDECL_CALL LSQueryVersion(LS_uint64 *pVersion);
 }
 #else 
-    typedef ZZ_RESULT             (ZZ_CDECL_CALL *ZZInit_Fn)(int version, ZZFactory **ppFactory);
-    typedef ZZ_RESULT             (ZZ_CDECL_CALL *ZZQueryVersion_Fn)(int *pVersion);
+    typedef LS_RESULT             (LS_CDECL_CALL *LSInit_Fn)(int version, LSFactory **ppFactory);
+    typedef LS_RESULT             (LS_CDECL_CALL *LSQueryVersion_Fn)(int *pVersion);
 #endif
 
-#if defined(_WIN32)
-    #if defined(_M_AMD64)
-        #define ZZ_DLL_NAME    L"ZZrt64.dll"
-        #define ZZ_DLL_NAMEA   "ZZrt64.dll"
-    #else
-        #define ZZ_DLL_NAME    L"ZZrt32.dll"
-        #define ZZ_DLL_NAMEA   "ZZrt32.dll"
-    #endif
-#elif defined(__linux__)
-    #if defined(__x86_64__)
-        #define ZZ_DLL_NAME    L"ZZrt64.so"
-        #define ZZ_DLL_NAMEA   "ZZrt64.so"
-    #else
-        #define ZZ_DLL_NAME    L"ZZrt32.so"
-        #define ZZ_DLL_NAMEA   "ZZrt32.so"
-    #endif
-#endif 
