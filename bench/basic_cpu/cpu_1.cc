@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <cstdlib>
+#include <cstring>
 
 #if defined(__GNUC__)
 #define BENCHMARK_NOINLINE __attribute__((noinline))

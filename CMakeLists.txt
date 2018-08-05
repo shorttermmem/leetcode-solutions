@@ -10,29 +10,28 @@ HunterGate(
 set(package_name "leetcode")
 project(${package_name} VERSION 0.1.0 LANGUAGES CXX)
 
-option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
-
 #-----------------------------------------------------------------------------
-hunter_add_package(GTest)
-hunter_add_package(gflags)
-hunter_add_package(glog)
-hunter_add_package(benchmark)
+option(HUNTER_BUILD_SHARED_LIBS "Build 3rd party libraries as shared" ON)
 
-find_package(GTest CONFIG REQUIRED)
-find_package(GMock CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
+hunter_add_package(gflags)
 find_package(gflags CONFIG REQUIRED)
-find_package(benchmark CONFIG REQUIRED)
+hunter_add_package(glog)
+find_package(glog CONFIG REQUIRED)
 
 #-----------------------------------------------------------------------------
 include(cmake/CommonTools.cmake)
 include(cmake/CommonSetup.cmake)
-
 add_subdirectory(src)
 
 #-----------------------------------------------------------------------------
 option(BUILD_TESTING "Build tests using CMake" ON)
 if(BUILD_TESTING)
+    hunter_add_package(GTest)
+    hunter_add_package(benchmark)
+    find_package(GTest CONFIG REQUIRED)
+    find_package(GMock CONFIG REQUIRED)
+    find_package(benchmark CONFIG REQUIRED)
+
     include(CTest)
     add_subdirectory(test)
     add_subdirectory(bench)
@@ -45,7 +44,9 @@ if(BUILD_DOC)
 endif()
 
 #-----------------------------------------------------------------------------
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
-#print_cmake_variables()
+option(BUILD_PACKING "Build packaging" ON)
+if(BUILD_PACKING)
+    set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+    set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+    include(CPack)
+endif()

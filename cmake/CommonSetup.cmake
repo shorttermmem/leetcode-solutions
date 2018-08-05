@@ -30,7 +30,7 @@ if(MSVC)
 endif()
 
 # Ensure portability
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -38,3 +38,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Polices
 set(CMAKE_POLICY_DEFAULT_CMP0054 NEW)
+
+# Warnings
+string(APPEND CMAKE_CXX_FLAGS -Wno-pragma-once-outside-header)

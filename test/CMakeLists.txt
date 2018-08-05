@@ -5,4 +5,4 @@ endif()
 
 # Test: Generates CTestTestfile.cmake for ctest app
 enable_testing()
-add_subdirectory(two_sum)
+add_subdirectory(arrays)

@@ -20,26 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+
+/**
+***************************************************************************************************
+* @file  Version.h
+* @brief Version declaration
+***************************************************************************************************
+*/
 #pragma once
-#include <vector>
 
-namespace solution{ 
+#include "platform.h"
 
-class TwoSum {
-public:
-    /**
-    find two indices of a vector whose sum equal to target.
-    @return vector of two indices
-    @param nums vector of integer to be searched
-    @param target summation target
-    @pre
-    -# nums contains integers.
-    -# target is an integer.
-    @post
-    -# nums no changes.
-    -# target no changes.
-    */ 
-    std::vector<int> find(const std::vector<int>& nums, int target);
-};
+#define ZZ_MAKE_FULL_VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_RELEASE, VERSION_BUILD_NUM)    ( ((ZZ_uint64)(VERSION_MAJOR) << 48ull) | ((ZZ_uint64)(VERSION_MINOR) << 32ull) | ((ZZ_uint64)(VERSION_RELEASE) << 16ull)  | (ZZ_uint64)(VERSION_BUILD_NUM))
 
-}
+#define ZZ_GET_MAJOR_VERSION(x)      ((x >> 48ull) & 0xFFFF)
+#define ZZ_GET_MINOR_VERSION(x)      ((x >> 32ull) & 0xFFFF)
+#define ZZ_GET_SUBMINOR_VERSION(x)   ((x >> 16ull) & 0xFFFF)
+#define ZZ_GET_BUILD_VERSION(x)      ((x >>  0ull) & 0xFFFF)
+
+#define ZZ_VERSION_MAJOR       0
+#define ZZ_VERSION_MINOR       0
+#define ZZ_VERSION_RELEASE     1
+#define ZZ_VERSION_BUILD_NUM   0
+
+#define ZZ_FULL_VERSION ZZ_MAKE_FULL_VERSION(ZZ_VERSION_MAJOR, ZZ_VERSION_MINOR, ZZ_VERSION_RELEASE, ZZ_VERSION_BUILD_NUM)
+
