@@ -1,29 +1,51 @@
 language: cpp
-
-dist: trusty
-osx_image: xcode7.3
 sudo: required
-
 cache: ccache
-
-# Travis CI VM OSs -> 2 OSs
-os:
-    - linux
-    - osx
-
-# Travis CI build matrix components -> 2 compilers
-compiler:
-    - gcc
-    - clang
 
 # Travis CI environmental variables -> 2 env variables
 env:
-    - TRAVIS_BUILD_TYPE=Debug
-    - TRAVIS_BUILD_TYPE=Release
+    global:
+    matrix:
+      - TRAVIS_BUILD_TYPE=Debug
+      - TRAVIS_BUILD_TYPE=Release
 
-# Total builds: 8 = 2 [OSs] * 2 [comps] * 2 [env vars]
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      dist: trusty
+        addons:
+            apt:
+                sources:
+                    - ubuntu-toolchain-r-test
+                packages:
+                    - g++-7
+            env:
+                - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      dist: trusty
+        addons:
+            apt:
+                sources:
+                    - llvm-toolchain-trusty-5.0
+                packages:
+                    - clang-5.0
+            env:
+                - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+    # works on Mac OS xcode9.4
+    - os: osx
+      osx_image: xcode9.4
+        env:
+            - MATRIX_EVAL="brew install gcc && CC=gcc-7 && CXX=g++-7"
+    - os: osx
+      osx_image: xcode9.4
+        env:
+            # default to clang
+            - MATRIX_EVAL=""
 
 before_install:
+    - eval "${MATRIX_EVAL}"
+
     # Update package managers
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update;  fi
     - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew update;              fi
@@ -55,8 +77,9 @@ before_install:
     - ccache -s
     - echo "--------------------  END SYSTEM INFORMATION  --------------------"
 
+install:
+
 before_script:
-    # Run CMake
     - mkdir build
     - cd build
     - cmake -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE} ..
@@ -65,3 +88,13 @@ script:
     - make
     - make test
     - make doc
+
+after_success:
+
+after_failure:
+
+before_deploy:
+deploy:
+after_deploy:
+
+after_script:
