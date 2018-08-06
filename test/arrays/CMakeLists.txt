@@ -1,9 +1,9 @@
 # Set name / sources / headers
 get_current_folder_name(FOLDER_NAME)
-set(TEST_TARGET_NAME ${FOLDER_NAME}_test)
+set(TEST_TARGET_NAME test_${FOLDER_NAME})
 
 set(${FOLDER_NAME}_SRC
-    arrays_test.cpp 
+    test_arrays.cpp 
 )
 
 # Compiler
