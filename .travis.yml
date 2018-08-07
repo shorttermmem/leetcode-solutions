@@ -24,7 +24,7 @@ matrix:
     - env: MATRIX_EVAL="CC=clang && CXX=clang++" TRAVIS_BUILD_TYPE=Release 
       os: osx
       compiler: clang
-        
+
     ##########################################################################
     # Clang on Linux
     ##########################################################################
@@ -120,9 +120,7 @@ before_script:
 
 script:
   - cmake --build . -- -j${JOBS}
-  - ctest --output-on-failure -j${JOBS}
-  - doxygen ./doc/Doxyfile
-
+  - ctest --output-on-failure -j${JOBS} 
 after_success:
   - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
 

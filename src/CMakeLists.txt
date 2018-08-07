@@ -41,16 +41,6 @@ PUBLIC
     glog::glog
 )
 
-# Installer
-#install(TARGETS ${LIBRARY_TARGET_NAME}
-#    EXPORT        ${PROJECT_NAME}
-#    LIBRARY       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                            COMPONENT lib
-#    ARCHIVE       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                            COMPONENT lib
-#    RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}"                            COMPONENT bin
-#)
-
-#set_property(GLOBAL APPEND PROPERTY ${PROJECT_NAME}_TARGETS ${LIBRARY_TARGET_NAME})
-
 # Export no symbols by default (if the compiler supports it).
 # This makes e.g. GCC's "visibility behavior" consistent with MSVC's. 
 # On Windows/MSVC this is a noop.

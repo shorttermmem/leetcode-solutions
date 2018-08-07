@@ -3,7 +3,7 @@ get_current_folder_name(FOLDER_NAME)
 set(BENCH_TARGET_NAME bench_${FOLDER_NAME})
 
 set(${FOLDER_NAME}_SRC
-    cpu_1.cc  
+    cpu_1.cpp 
 )
 
 set(${FOLDER_NAME}_HDR
@@ -21,7 +21,7 @@ PRIVATE
 
 # Linker
 target_link_libraries(${BENCH_TARGET_NAME}
-PRIVATE
+PUBLIC
     benchmark::benchmark
 )
 
