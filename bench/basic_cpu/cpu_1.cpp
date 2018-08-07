@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <cstdlib>
+#include <cstring>
 
 #if defined(__GNUC__)
 #define BENCHMARK_NOINLINE __attribute__((noinline))
@@ -35,6 +36,9 @@ static void BM_Factorial(benchmark::State& state) {
 }
 BENCHMARK(BM_Factorial);
 BENCHMARK(BM_Factorial)->UseRealTime();
+BENCHMARK(BM_Factorial)->Threads(8);
+BENCHMARK(BM_Factorial)->ThreadRange(1, 32);
+BENCHMARK(BM_Factorial)->ThreadPerCpu();
 
 static void BM_StringCreation(benchmark::State& state) {
   for (auto _ : state)
@@ -118,10 +122,10 @@ static void BM_vector_push_back(benchmark::State& state) {
 BENCHMARK(BM_vector_push_back);
 
 static void BM_MAD(benchmark::State& state) {
-  std::vector<int> stair(1000000, 1);
   int sum = 0;
-  for (auto i : stair)
-    benchmark::DoNotOptimize(sum += i);
+  for (auto _ : state)
+    for (int i =0 ; i < 100000; ++i)
+      benchmark::DoNotOptimize(sum += i);
 }
 BENCHMARK(BM_MAD);
 

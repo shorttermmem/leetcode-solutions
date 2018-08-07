@@ -22,15 +22,8 @@ message("[INFO] CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 # Crucial for vscode cpp_tool to reference source code
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Enable share libraries in Windows
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
-if(MSVC)
-    set(CMAKE_DEBUG_POSTFIX "d")
-endif()
-
 # Ensure portability
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -38,3 +31,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Polices
 set(CMAKE_POLICY_DEFAULT_CMP0054 NEW)
+
+# Warnings
+string(APPEND CMAKE_CXX_FLAGS -Wno-pragma-once-outside-header)
+
+if(MSVC)
+    set(CMAKE_DEBUG_POSTFIX "d")
+    # Enable share libraries in Windows
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
+if(APPLE)
+    set(CMAKE_MACOSX_RPATH 1)
+endif()

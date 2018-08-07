@@ -20,26 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+
+/**
+***************************************************************************************************
+* @file  Version.h
+* @brief Version declaration
+***************************************************************************************************
+*/
 #pragma once
-#include <vector>
 
-namespace solution{ 
+#include "platform.h"
 
-class TwoSum {
-public:
-    /**
-    find two indices of a vector whose sum equal to target.
-    @return vector of two indices
-    @param nums vector of integer to be searched
-    @param target summation target
-    @pre
-    -# nums contains integers.
-    -# target is an integer.
-    @post
-    -# nums no changes.
-    -# target no changes.
-    */ 
-    std::vector<int> find(const std::vector<int>& nums, int target);
-};
+#define LS_MAKE_FULL_VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_RELEASE, VERSION_BUILD_NUM)    ( ((LS_uint64)(VERSION_MAJOR) << 48ull) | ((LS_uint64)(VERSION_MINOR) << 32ull) | ((LS_uint64)(VERSION_RELEASE) << 16ull)  | (LS_uint64)(VERSION_BUILD_NUM))
 
-}
+#define LS_GET_MAJOR_VERSION(x)      ((x >> 48ull) & 0xFFFF)
+#define LS_GET_MINOR_VERSION(x)      ((x >> 32ull) & 0xFFFF)
+#define LS_GET_SUBMINOR_VERSION(x)   ((x >> 16ull) & 0xFFFF)
+#define LS_GET_BUILD_VERSION(x)      ((x >>  0ull) & 0xFFFF)
+
+#define LS_VERSION_MAJOR       0
+#define LS_VERSION_MINOR       0
+#define LS_VERSION_RELEASE     1
+#define LS_VERSION_BUILD_NUM   0
+
+#define LS_FULL_VERSION LS_MAKE_FULL_VERSION(LS_VERSION_MAJOR, LS_VERSION_MINOR, LS_VERSION_RELEASE, LS_VERSION_BUILD_NUM)
+

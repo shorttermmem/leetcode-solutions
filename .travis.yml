@@ -1,67 +1,131 @@
 language: cpp
+sudo: false
 
+# Linux unless otherwise
+os: linux
 dist: trusty
-osx_image: xcode7.3
-sudo: required
 
-cache: ccache
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/deps
 
-# Travis CI VM OSs -> 2 OSs
-os:
-    - linux
-    - osx
+matrix:
+  include:
+        
+    ##########################################################################
+    # Clang & GCC on OSX
+    # Travis seems to take longer to start OSX instances,
+    # so leave this first for the overall build to be faster
+    ##########################################################################    
+    - env: MATRIX_EVAL="CC=clang && CXX=clang++" TRAVIS_BUILD_TYPE=Debug 
+      os: osx
+      compiler: clang
 
-# Travis CI build matrix components -> 2 compilers
-compiler:
-    - gcc
-    - clang
+    - env: MATRIX_EVAL="CC=clang && CXX=clang++" TRAVIS_BUILD_TYPE=Release 
+      os: osx
+      compiler: clang
 
-# Travis CI environmental variables -> 2 env variables
-env:
-    - TRAVIS_BUILD_TYPE=Debug
-    - TRAVIS_BUILD_TYPE=Release
+    ##########################################################################
+    # Clang on Linux
+    ##########################################################################
+    - env: MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0" TRAVIS_BUILD_TYPE=Debug 
+      addons: &clang50
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0  
 
-# Total builds: 8 = 2 [OSs] * 2 [comps] * 2 [env vars]
+    - env: MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0" TRAVIS_BUILD_TYPE=Release
+      addons: *clang50
+
+    ##########################################################################
+    # GCC on Linux
+    ##########################################################################
+    - env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7" TRAVIS_BUILD_TYPE=Debug
+      addons: &gcc7
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+    
+    - env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7" TRAVIS_BUILD_TYPE=Release
+      addons: *gcc7
 
 before_install:
-    # Update package managers
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update;  fi
-    - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew update;              fi
+  - eval "${MATRIX_EVAL}"
 
-    # Use ccache also for clang and clang++ on linux
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CC" == "clang" ];    then sudo ln -s ../../bin/ccache /usr/lib/ccache/clang;   fi; fi
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CC" == "clang" ];    then export CFLAGS="-Qunused-arguments";                  fi; fi
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CXX" == "clang++" ]; then sudo ln -s ../../bin/ccache /usr/lib/ccache/clang++; fi; fi
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CXX" == "clang++" ]; then export CXXFLAGS="-Qunused-arguments";                fi; fi
+  # Update package managers
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update;  fi
+  - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew update;              fi
 
-    # Install ccache on osx
-    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ccache;                               fi
-    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
+  # Use ccache also for clang and clang++ on linux
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CC" == "clang" ];    then sudo ln -s ../../bin/ccache /usr/lib/ccache/clang;   fi; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CC" == "clang" ];    then export CFLAGS="-Qunused-arguments";                  fi; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CXX" == "clang++" ]; then sudo ln -s ../../bin/ccache /usr/lib/ccache/clang++; fi; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then if [ "$CXX" == "clang++" ]; then export CXXFLAGS="-Qunused-arguments";                fi; fi
 
-    # Print some more system information after installing all build tools
-    - echo "-------------------- BEGIN SYSTEM INFORMATION --------------------"
-    - uname -a
-    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then lsb_release -a;                     fi
-    - if [ "$TRAVIS_OS_NAME" == "osx" ];   then system_profiler SPSoftwareDataType; fi
-    - env
-    - which cmake
-    - cmake --version
-    - which $CC
-    - $CC --version
-    - which $CXX
-    - $CXX --version
-    - which ccache
-    - ccache --version
-    - ccache -s
-    - echo "--------------------  END SYSTEM INFORMATION  --------------------"
+  # Install ccache on osx
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ccache;                               fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
+
+  # Print some more system information after installing all build tools
+  - echo "-------------------- BEGIN SYSTEM INFORMATION --------------------"
+  - uname -a
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then lsb_release -a;                     fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ];   then system_profiler SPSoftwareDataType; fi
+  - env
+  - which cmake
+  - cmake --version
+  - which $CC
+  - $CC --version
+  - which $CXX
+  - $CXX --version
+  - which ccache
+  - ccache --version
+  - ccache -s
+  - gem --version
+  - echo "--------------------  END SYSTEM INFORMATION  --------------------"
+
+install:
+  - pip install --user cpp-coveralls
+  
+  # Dependencies required by the CI are installed in ${TRAVIS_BUILD_DIR}/deps/
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir -p "${DEPS_DIR}"
+  - cd "${DEPS_DIR}"
+
+  - JOBS=2 # travis uses 2 core servers
+
+  ############################################################################
+  # Install a recent CMake (unless already installed on OS X)
+  ############################################################################
+  - CMAKE_VERSION=3.12.0
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v${CMAKE_VERSION%.[0-9]}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else
+      brew install cmake || brew upgrade cmake
+    fi
+  - cmake --version
 
 before_script:
-    # Run CMake
-    - mkdir build
-    - cd build
-    - cmake -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE} ..
+  - cd "${TRAVIS_BUILD_DIR}"
+  - mkdir build
+  - cd build
+  - cmake .. -DCOVERAGE=1 -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE}
 
 script:
-    - make
-    - make test
-    - make doc
+  - cmake --build . -- -j${JOBS}
+  - ctest --output-on-failure -j${JOBS} 
+after_success:
+  - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
+
+#after_failure:
+#before_deploy:
+#deploy:
+#after_deploy:
+#after_script:
