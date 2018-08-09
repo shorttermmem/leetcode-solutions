@@ -33,14 +33,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POLICY_DEFAULT_CMP0054 NEW)
 
 # Warnings
-string(APPEND CMAKE_CXX_FLAGS -Wno-pragma-once-outside-header)
 
-if(MSVC)
+if(WIN32)
+  if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
     # Enable share libraries in Windows
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-endif()
-
-if(APPLE)
+  elseif(CYGWIN OR MINGW)
+    # NOT USED
+  endif()
+elseif(UNIX)
+  if(APPLE)
     set(CMAKE_MACOSX_RPATH 1)
+    string(APPEND CMAKE_CXX_FLAGS -Wno-pragma-once-outside-header)
+  else()
+    # NOT USED
+  endif()
 endif()
