@@ -1,30 +1,71 @@
 version: 1.0.{build}
 
-clone_folder: c:\dev\leetcode
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+clone_folder: C:\workspace
 
-os:
-    - Visual Studio 2013
+image:
     - Visual Studio 2015
     - Visual Studio 2017
 
+# scripts that are called at very beginning, before repo cloning
+init:
+    - git config --global core.autocrlf input
+
 install:
+environment:
+    APPVEYOR_RDP_PASSWORD: password
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# to add several configurations to build matrix:
+configuration:
+    - Debug
+    - Release
 
 build:
+    parallel: true                  # enable MSBuild parallel builds
+    # MSBuild verbosity level
+    verbosity: quiet|minimal|normal|detailed
 
 build_script:
     # Build the library
-    - cd c:\dev\leetcode
+    - cd c:\workspace
     - md build
     - cd build
     - cmake -DBUILD_TESTING:BOOL=ON -DCMAKE_CXX_FLAGS:STRING="/W4" ..
-    # Build the library for Release and Debug
-    - cmake --build . --config Debug
-    - cmake --build . --config Release
+    # Build the library
+    - cmake --build . --config $(configuration)
 
 after_build:
     # Install only release
-    - cmake --build C:\dev\leetcode\build --config Release --target INSTALL
+    - cmake --build C:\workspace\build --config $(configuration) --target INSTALL
 
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
 test_script:
-    - ctest -C Debug -VV
-    - ctest -C Release -VV
+    - ctest -C $(configuration) -VV
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+artifacts:
+    - path: C:\workspace\build\$(configuration)\**
+      name: leetcode_package
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+# providers: Local, FTP, WebDeploy, AzureCS, AzureBlob, S3, NuGet, Environment
+# provider names are case-sensitive!
+deploy:
+
+on_finish:
+    # Enable RDP
+    #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
