@@ -10,7 +10,7 @@
 using namespace std;
 using namespace LS;
 
-static unique_ptr<Arrays> g_solutions{};
+static Arrays* g_solutions = nullptr;
 
 static auto x = [](){
     // turn off sync
@@ -24,24 +24,24 @@ TEST(BasicCase, test1)
 {   
     vector<int> input{1,2,3,4,5,6};
     
-   // auto output = solution::find(input, 8);
+    auto output = g_solutions->twoSum(input, 8);
 
-   // EXPECT_TRUE(
-   //     (output == vector<int>{2,4})
-   //     );
+    EXPECT_TRUE(
+        (output == vector<int>{2,4})
+    );
    
 }
 
-int main(int argc, char **argv){
+int main(int argc, char** argv){
 
+    cout << "hello" <<endl;
     google::ParseCommandLineFlags(&argc, &argv, true);
     google::InitGoogleLogging(argv[0]);
     testing::InitGoogleTest(&argc, argv);
 
     Factory* factory = nullptr;
     LS_RESULT res = LSInit(LS_FULL_VERSION, &factory);
-
-   // factory->CreateArrays(&(g_solutions.get());
-
+    factory->CreateArrays(&g_solutions);
+    
     return RUN_ALL_TESTS();
 }

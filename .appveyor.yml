@@ -12,20 +12,31 @@ image:
 # scripts that are called at very beginning, before repo cloning
 init:
     - git config --global core.autocrlf input
+    - if "%PLATFORM%"=="x64" ( set arch= Win64)
+    - echo %arch%
+    - echo %APPVEYOR_BUILD_WORKER_IMAGE%
+    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
+    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
+    - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
+    - echo %generator%
 
 install:
+
 environment:
     APPVEYOR_RDP_PASSWORD: password
 
+   
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform: Any CPU
+platform:
+    #- x86
+    - x64
 
 # to add several configurations to build matrix:
 configuration:
-    - Debug
+    #- Debug
     - Release
 
 build:
@@ -38,26 +49,23 @@ build_script:
     - cd c:\workspace
     - md build
     - cd build
-    - cmake -DBUILD_TESTING:BOOL=ON -DCMAKE_CXX_FLAGS:STRING="/W4" ..
-    # Build the library
-    - cmake --build . --config $(configuration)
+    - cmake -DBUILD_TESTING:BOOL=ON -G %generator% ..
+    - cmake --build . --config %CONFIGURATION%
 
 after_build:
-    # Install only release
-    - cmake --build C:\workspace\build --config $(configuration) --target INSTALL
 
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
 test_script:
-    - ctest -C $(configuration) -VV
+    - ctest -C %CONFIGURATION% -VV
 
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
 artifacts:
-    - path: C:\workspace\build\$(configuration)\**
-      name: leetcode_package
+#    - path: C:\workspace\build\%CONFIGURATION%\**
+#      name: leetcode_package
 
 #---------------------------------#
 #     deployment configuration    #

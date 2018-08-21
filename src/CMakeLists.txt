@@ -55,4 +55,17 @@ GENERATE_EXPORT_HEADER(${LIBRARY_TARGET_NAME}
     EXPORT_FILE_NAME "${PROJECT_SOURCE_DIR}/include/shared_EXPORTS.h"
 )
 
+# Unix use RPATH, no install required.
+if(MSVC)
+  # Install libraries manually (workaround for cpack)
+  # See: http://public.kitware.com/Bug/view.php?id=15400
+  foreach(DEPS glog::glog)
+    add_custom_command(TARGET ${LIBRARY_TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:${DEPS}>
+            $<TARGET_FILE_DIR:${LIBRARY_TARGET_NAME}>)
+  endforeach()
+endif()
+
+
 add_subdirectory(search_autocomplete_system)

@@ -10,6 +10,7 @@ HunterGate(
 
 set(package_name "leetcode")
 project(${package_name} VERSION 0.1.0 LANGUAGES CXX)
+include(cmake/CommonSetup.cmake)
 
 #-----------------------------------------------------------------------------
 option(HUNTER_BUILD_SHARED_LIBS "Build 3rd party libraries as shared by default" ON)
@@ -20,7 +21,6 @@ find_package(glog CONFIG REQUIRED)
 
 #-----------------------------------------------------------------------------
 include(cmake/CommonTools.cmake)
-include(cmake/CommonSetup.cmake)
 add_subdirectory(src)
 
 #-----------------------------------------------------------------------------
