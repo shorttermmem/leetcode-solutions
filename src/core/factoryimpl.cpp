@@ -1,4 +1,5 @@
 #include "factoryImpl.h"
+#include "arraysolver.h"
 
 using namespace LS;
 
@@ -17,9 +18,16 @@ LS_RESULT LS_CDECL_CALL LSQueryVersion(LS_uint64 *pVersion)
     return LS_OK;
 }
 //-------------------------------------------------------------------------------------------------
-LS_RESULT LS_STD_CALL FactoryImpl::CreateArrays(Arrays** ppArrays)
+LS_RESULT LS_STD_CALL FactoryImpl::CreateSolver(SolverType type, ISolver** ppSolver)
 {
-    static Arrays sol;
-    *ppArrays = &sol;
+    // Create new instance each time and relinguish its ownership.
+    switch(type)
+    {
+    case ArraySolverType:
+        *ppSolver = new ArraySolver();
+        break;
+    default:
+        return LS_NOT_FOUND;
+    }
     return LS_OK;
 }

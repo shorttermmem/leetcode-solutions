@@ -21,22 +21,20 @@
 // SOFTWARE.
 
 #pragma once
+#include "solver.h"
 #include <vector>
-#include <memory>
-
-#include "shared_EXPORTS.h"
 
 namespace LS{ 
 
-class Arrays{
+class ArraySolver : public ISolver{
 public:
-    Arrays();
+    ArraySolver();
 
     /**
      * @brief Movable and non-copyable 
      */
-    Arrays(Arrays&&);
-    Arrays& operator=(Arrays&&);
+    ArraySolver(ArraySolver&&);
+    ArraySolver& operator=(ArraySolver&&);
 
     /**
     @brief Given an array of integers, return indices of the two numbers such that they add up to a specific target.

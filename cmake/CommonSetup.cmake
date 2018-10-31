@@ -25,6 +25,8 @@ message("[INFO] CMAKE_CACHEFILE_DIR = ${CMAKE_CACHEFILE_DIR}")
 message("[INFO] CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}")
 message("[INFO] CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # Crucial for vscode cpp_tool to reference source code
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

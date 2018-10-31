@@ -21,37 +21,41 @@
 // SOFTWARE.
 
 #include "version.h"
-#include "categories/arrays.h"
 
 #if defined(__cplusplus)
 namespace LS
 {
-#endif
+    enum SolverType : int{
+        ArraySolverType
+    };
+
+    class ISolver;
+
     //----------------------------------------------------------------------------------------------
     // LSFactory interface - singleton
     //----------------------------------------------------------------------------------------------
-#if defined(__cplusplus)
     class LS_NO_VTABLE Factory
     {
     public:
-        virtual LS_RESULT  LS_STD_CALL CreateArrays(Arrays** ppArrays) = 0;
+        virtual LS_RESULT  LS_STD_CALL CreateSolver(SolverType type, ISolver** ppSolver) = 0;
    };
-#else
-    typedef struct Factory Factory;
-
-    typedef struct FactoryVtbl
-    {
-        LS_RESULT          (LS_STD_CALL *CreateArrays)(Factory* pThis, int** ppContext);
-    } FactoryVtbl;
-
-    struct Factory
-    {
-        const FactoryVtbl *pVtbl;
-    };
-
-#endif
-#if defined(__cplusplus)
 }
+#else
+/*
+C style API not yet supported.
+
+typedef struct Factory Factory;
+
+typedef struct FactoryVtbl
+{
+    LS_RESULT         (LS_STD_CALL *CreateSolver)(Factory* pThis, SolverType type,  ISolver** ppSolver);
+} FactoryVtbl;
+
+struct Factory
+{
+    const FactoryVtbl *pVtbl;
+};
+*/
 #endif
 
 //----------------------------------------------------------------------------------------------

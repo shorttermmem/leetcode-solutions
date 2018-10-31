@@ -5,12 +5,11 @@
 #include <gmock/gmock.h>
 
 #include "factory.h"
-#include "arrays.h"
+#include "arraysolver.h"
 
 using namespace std;
-using namespace LS;
 
-static Arrays* g_solutions = nullptr;
+LS::ArraySolver* g_solutions = nullptr;
 
 static auto x = [](){
     // turn off sync
@@ -39,9 +38,11 @@ int main(int argc, char** argv){
     google::InitGoogleLogging(argv[0]);
     testing::InitGoogleTest(&argc, argv);
 
-    Factory* factory = nullptr;
+    LS::Factory* factory = nullptr;
     LS_RESULT res = LSInit(LS_FULL_VERSION, &factory);
-    factory->CreateArrays(&g_solutions);
+    LS::ISolver* solver = nullptr;
+    factory->CreateSolver(LS::ArraySolverType, &solver);
+    g_solutions = (LS::ArraySolver*)solver;
     
     return RUN_ALL_TESTS();
 }

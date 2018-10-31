@@ -1,15 +1,22 @@
 set(LIBRARY_TARGET_NAME leetcode)
 
-list(APPEND CORE_SRC
-"${CMAKE_CURRENT_LIST_DIR}/core/factoryImpl.cpp"
-"${CMAKE_CURRENT_LIST_DIR}/core/factoryImpl.h"
+list(APPEND PUBLIC_HDR
+"${PROJECT_SOURCE_DIR}/include/factory.h"
+"${PROJECT_SOURCE_DIR}/include/platform.h"
+"${PROJECT_SOURCE_DIR}/include/solver.h"
+"${PROJECT_SOURCE_DIR}/include/version.h"
+"${PROJECT_SOURCE_DIR}/include/component/arraysolver.h"
 )
 
-list(APPEND CORE_HDR
-"${CMAKE_CURRENT_LIST_DIR}/core"
+list(APPEND PRIVATE_SRC
+"${CMAKE_CURRENT_LIST_DIR}/core/factoryimpl.cpp"
+"${CMAKE_CURRENT_LIST_DIR}/impl/arraysolver.cpp"
 )
 
-include(arrays/CMakeLists.txt)
+list(APPEND PRIVATE_HDR
+"${CMAKE_CURRENT_LIST_DIR}/core/factoryimpl.h"
+)
+
 add_library(${LIBRARY_TARGET_NAME} SHARED "")
 
 set_target_properties(${LIBRARY_TARGET_NAME} 
@@ -20,21 +27,22 @@ PROPERTIES
 # List make & make install files.
 target_include_directories(${LIBRARY_TARGET_NAME} 
 PUBLIC 
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include;${PROJECT_SOURCE_DIR}/include/categories;${${COMPONENT_NAME}_HDR}>"
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include;${PROJECT_SOURCE_DIR}/include/component;>"
     "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}/${LIBRARY_TARGET_NAME}>"
 )
 
 # List IDE source files.
 target_sources(${LIBRARY_TARGET_NAME}
 PUBLIC
-    "${PROJECT_SOURCE_DIR}/include"
-    "${PROJECT_SOURCE_DIR}/include/categories"
-    "${${COMPONENT_NAME}_HDR}"
-    "${CORE_HDR}"
+    "${PUBLIC_HDR}"
+    "${PRIVATE_HDR}"
 PRIVATE
-    "${${COMPONENT_NAME}_SRC}"
-    "${CORE_SRC}"
+    "${PRIVATE_SRC}"
 )
+
+# List IDE folder structure.
+source_group(TREE ${PROJECT_SOURCE_DIR} FILES ${PUBLIC_HDR})
+source_group(TREE ${PROJECT_SOURCE_DIR} FILES ${PRIVATE_SRC} ${PRIVATE_HDR})
 
 target_link_libraries(${LIBRARY_TARGET_NAME} 
 PUBLIC 

@@ -5,12 +5,12 @@
 
 #include <glog/logging.h>
 
-#include "arrays.h"
+#include "arraysolver.h"
 
 using namespace LS;
 using namespace std;
 
-struct Arrays::Impl{
+struct ArraySolver::Impl{
 
     std::vector<int> twoSum1(const std::vector<int>& nums, int target){
             
@@ -42,7 +42,7 @@ struct Arrays::Impl{
             
         std::vector<vector<int>> res{};
         std::sort(nums.begin(),nums.end(), std::less<int>());    
-        int N = nums.size();
+        int N = (int)nums.size();
         
         for (int i = 0; i < N; ++i)
         {
@@ -76,20 +76,20 @@ struct Arrays::Impl{
         }
         return res;
     };
-}; // Arrays::Impl
+}; // ArraySolver::Impl
 
-Arrays::Arrays() : m_impl(
+ArraySolver::ArraySolver() : m_impl(
     new Impl(), 
     [](Impl *impl) { delete impl; }
 )
 {}
 
-std::vector<int> Arrays::twoSum(const std::vector<int>& nums, int target) const noexcept
+std::vector<int> ArraySolver::twoSum(const std::vector<int>& nums, int target) const noexcept
 {
     return m_impl->twoSum1(nums, target);
 }
 
-std::vector<std::vector<int>>  Arrays::threeSum(std::vector<int>& nums, int target) const noexcept
+std::vector<std::vector<int>>  ArraySolver::threeSum(std::vector<int>& nums, int target) const noexcept
 {
     return m_impl->threeSum1(nums, target);
 }
