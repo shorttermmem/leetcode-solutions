@@ -1,4 +1,4 @@
-#include "factoryImpl.h"
+#include "factoryimpl.h"
 #include "arraysolver.h"
 
 using namespace LS;
