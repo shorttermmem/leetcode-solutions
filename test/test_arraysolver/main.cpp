@@ -33,9 +33,9 @@ TEST(BasicCase, test1)
 
 int main(int argc, char** argv){
 
-    cout << "hello" <<endl;
     google::ParseCommandLineFlags(&argc, &argv, true);
     google::InitGoogleLogging(argv[0]);
+    google::SetCommandLineOption("GLOG_minloglevel", "2");
     testing::InitGoogleTest(&argc, argv);
 
     LS::Factory* factory = nullptr;
