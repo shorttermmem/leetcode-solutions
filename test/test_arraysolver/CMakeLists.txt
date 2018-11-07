@@ -1,6 +1,6 @@
 # Set name / sources / headers
 get_current_folder_name(FOLDER_NAME)
-set(TEST_TARGET_NAME test_${FOLDER_NAME})
+set(TEST_TARGET_NAME ${FOLDER_NAME})
 
 set(${FOLDER_NAME}_SRC
     main.cpp 
