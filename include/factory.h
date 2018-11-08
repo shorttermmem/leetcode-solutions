@@ -26,7 +26,8 @@
 namespace LS
 {
     enum SolverType : int{
-        ArraySolverType
+        ArraySolverType = 0,
+        StringSolverType = 1,
     };
 
     class ISolver;

@@ -1,5 +1,6 @@
 #include "factoryimpl.h"
 #include "arraysolver.h"
+#include "stringsolver.h"
 
 using namespace LS;
 
@@ -25,6 +26,9 @@ LS_RESULT LS_STD_CALL FactoryImpl::CreateSolver(SolverType type, ISolver** ppSol
     {
     case ArraySolverType:
         *ppSolver = new ArraySolver();
+        break;
+    case StringSolverType:
+        *ppSolver = new StringSolver();
         break;
     default:
         return LS_NOT_FOUND;
