@@ -21,13 +21,21 @@ static auto x = [](){
 
 TEST(BasicCase, test1)
 {   
-    string str1{"abcdcba"};
-    
-    auto output = g_solutions->longestPalindrome(str1);
-
-    EXPECT_TRUE(
-        (str1 == output)
-    );
+    static std::vector<std::pair<string, string>> tests = {
+        {"abcdcba", "abcdcba"},
+        {"abcd112", "11"},
+        {"aacdbbb", "bbb"},
+        {"abcd", "a"},
+        {"a", "a"}
+    };
+   
+    for(auto test : tests)
+    {
+        auto output = g_solutions->longestPalindrome(test.first);
+        EXPECT_TRUE(
+            (test.second == output)
+        );
+    }  
 }
 
 int main(int argc, char** argv){
