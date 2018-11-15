@@ -7,12 +7,14 @@ list(APPEND PUBLIC_HDR
 "${PROJECT_SOURCE_DIR}/include/version.h"
 "${PROJECT_SOURCE_DIR}/include/component/arraysolver.h"
 "${PROJECT_SOURCE_DIR}/include/component/stringsolver.h"
+"${PROJECT_SOURCE_DIR}/include/component/sortingsolver.h"
 )
 
 list(APPEND PRIVATE_SRC
 "${CMAKE_CURRENT_LIST_DIR}/core/factoryimpl.cpp"
 "${CMAKE_CURRENT_LIST_DIR}/impl/arraysolver.cpp"
 "${CMAKE_CURRENT_LIST_DIR}/impl/stringsolver.cpp"
+"${CMAKE_CURRENT_LIST_DIR}/impl/sortingsolver.cpp"
 )
 
 list(APPEND PRIVATE_HDR
