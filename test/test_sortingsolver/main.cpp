@@ -22,20 +22,21 @@ static auto x = [](){
 
 TEST(BasicCase, test1)
 {   
-    static std::vector< std::tuple< std::vector<int>, int, int> > tests {
-        {
+    using TestCase = std::tuple< std::vector<int>, int, int>;
+    static std::vector< TestCase > tests {
+        TestCase{
             {0}, 1, 0
         },
-        { 
+        TestCase{ 
             {1,2,3}, 2, 2
         },
-        {
+        TestCase{
             {3,2,1}, 3, 1 
         },
-        {
+        TestCase{
             {5,9,1,2,6}, 1, 9
         },
-        {
+        TestCase{
             {5,9,1,2,6}, 5, 1
         }
     };
