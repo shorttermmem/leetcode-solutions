@@ -116,13 +116,13 @@ before_script:
   - cd "${TRAVIS_BUILD_DIR}"
   - mkdir build
   - cd build
-  - cmake .. -DCOVERAGE=1 -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE}
+  - cmake .. -DCOVERAGE:BOOL=ON -DBUILD_TESTING:BOOL=ON -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE}
 
 script:
   - cmake --build . -- -j${JOBS}
   - ctest --output-on-failure -j${JOBS} 
 after_success:
-  - coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
+  - coveralls --root . -E ".*gtest.*" -E ".*glog.*" -E ".*gflags.*" -E ".*CMakeFiles.*"
 
 #after_failure:
 #before_deploy:

@@ -67,7 +67,6 @@ GENERATE_EXPORT_HEADER(${LIBRARY_TARGET_NAME}
     EXPORT_FILE_NAME "${PROJECT_SOURCE_DIR}/include/shared_EXPORTS.h"
 )
 
-# Unix use RPATH, no install required.
 if(MSVC)
   # Install libraries manually (workaround for cpack)
   # See: http://public.kitware.com/Bug/view.php?id=15400
@@ -77,7 +76,13 @@ if(MSVC)
             $<TARGET_FILE:${DEPS}>
             $<TARGET_FILE_DIR:${LIBRARY_TARGET_NAME}>)
   endforeach()
-endif()
+else()
+  # Unix use RPATH, no install required.
 
+  if (COVERAGE)  
+    target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE --coverage)
+    #target_link_libraries(${LIBRARY_TARGET_NAME} PRIVATE --coverage)
+  endif()
+endif()
 
 add_subdirectory(search_autocomplete_system)

@@ -3,24 +3,29 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 ### Hunter snapshot that will be used ###
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.23.47.tar.gz"
-    SHA1 "2a35539939589cea0afb5af7050aa0604e1f555d"
+    URL "https://github.com/ruslo/hunter/archive/v0.23.73.tar.gz"
+    SHA1 "6f1905165d1f2dec8cd807aa005fc91308333926"
     LOCAL # load `${CMAKE_CURRENT_LIST_DIR}/cmake/Hunter/config.cmake`
 )
 
 set(package_name "leetcode")
 project(${package_name} VERSION 0.1.0 LANGUAGES CXX)
-include(cmake/CommonSetup.cmake)
+
+# Custom script search path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+include(CommonSetup)
+include(CommonTools)
 
 #-----------------------------------------------------------------------------
+option(COVERAGE "Generate coveralls data" OFF)
 option(HUNTER_BUILD_SHARED_LIBS "Build 3rd party libraries as shared by default" ON)
+
 hunter_add_package(gflags)
 hunter_add_package(glog)
 find_package(gflags CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
 
 #-----------------------------------------------------------------------------
-include(cmake/CommonTools.cmake)
 add_subdirectory(src)
 
 #-----------------------------------------------------------------------------

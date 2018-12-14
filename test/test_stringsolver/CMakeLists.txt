@@ -12,17 +12,12 @@ add_executable(${TEST_TARGET_NAME}
 )
 
 # Linker
-target_link_libraries(${TEST_TARGET_NAME}
-PUBLIC  leetcode
-PRIVATE gflags
-PRIVATE GMock::gmock #imply GTest::gtest
-)
+target_link_libraries(${TEST_TARGET_NAME} PUBLIC leetcode)
 
-target_include_directories(${TEST_TARGET_NAME} 
-PRIVATE
-   "${CMAKE_CURRENT_LIST_DIR}"
+TARGET_LINK_EXT_LIBRARIES(${TEST_TARGET_NAME}
+gflags 
+GMock::gmock #imply GTest::gtest
 )
-
 
 # Unix use RPATH, no install required.
 if(MSVC)
