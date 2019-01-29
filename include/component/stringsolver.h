@@ -22,7 +22,6 @@
 
 #pragma once
 #include "solver.h"
-#include <vector>
 
 namespace LS{ 
 
@@ -37,12 +36,20 @@ public:
     StringSolver& operator=(StringSolver&&);
 
     /**
-    @brief Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+    @brief Given a string, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
     https://leetcode.com/explore/interview/card/amazon/76/array-and-strings/489/
     @return longest palindrome
     @param source string
     */ 
     virtual std::string longestPalindrome(const std::string& str) const noexcept;
+
+    /**
+    @brief Given a string of roman chars "Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.".
+    https://leetcode.com/problems/roman-to-integer/
+    @return int value
+    @param string of roman chars
+    */ 
+    virtual int romanToInt(const std::string& str) const noexcept;
 
 private:
     struct Impl;

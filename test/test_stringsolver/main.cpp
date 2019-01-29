@@ -19,7 +19,7 @@ static auto x = [](){
     return 0;
 }();
 
-TEST(BasicCase, test1)
+TEST(BasicCase, longestParlindrome)
 {   
     string str1{"abcdcba"};
     
@@ -28,6 +28,25 @@ TEST(BasicCase, test1)
     EXPECT_TRUE(
         (str1 == output)
     );
+}
+
+TEST(BasicCase, romanToInt)
+{   
+    {
+        string str{"III"};
+        auto res = g_solutions->romanToInt(str);
+        EXPECT_TRUE( 3 == res );
+    }
+    {
+        string str{"IV"};
+        auto res = g_solutions->romanToInt(str);
+        EXPECT_TRUE( 4 == res );
+    }
+    {
+        string str{"XXVII"};
+        auto res = g_solutions->romanToInt(str);
+        EXPECT_TRUE( 27 == res );
+    }
 }
 
 int main(int argc, char** argv){
