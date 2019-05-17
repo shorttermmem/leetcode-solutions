@@ -56,6 +56,14 @@ public:
     */ 
     virtual std::vector<std::vector<int>> threeSum(std::vector<int>& nums, int target) const noexcept;
 
+    /**
+    @brief Given an array nums of n heights, find two heights that can contain most water.
+    https://leetcode.com/problems/container-with-most-water/
+    @return max area
+    @param array of heights
+    */ 
+    virtual int maxArea(std::vector<int>& height) const noexcept;
+
 private:
     struct Impl;
     /**

@@ -76,6 +76,44 @@ struct ArraySolver::Impl{
         }
         return res;
     };
+
+    int maxArea(vector<int>& height){
+          int length = height.size() - 1;
+        
+        auto left = height.begin();
+        auto right = height.rbegin();
+        
+        int areaMax = 0;
+    
+        while(left != right.base())
+        {
+            int leftH = *left;
+            int rightH = *right;
+            
+            int areaCur = 0;
+            if(leftH < rightH)
+            {
+                areaCur = leftH * length;
+                ++left;
+            }
+            else
+            {
+                areaCur = rightH * length; 
+                ++right;
+            }
+            
+            --length;
+            
+            //printf("l:%d, r:%d = [%d]", leftH, rightH, areaCur);
+            //printf("%d", length);
+            
+            if(areaCur > areaMax)
+                areaMax = areaCur;
+        }
+        
+        return areaMax;
+    }
+
 }; // ArraySolver::Impl
 
 ArraySolver::ArraySolver() : m_impl(
@@ -92,4 +130,9 @@ std::vector<int> ArraySolver::twoSum(const std::vector<int>& nums, int target) c
 std::vector<std::vector<int>>  ArraySolver::threeSum(std::vector<int>& nums, int target) const noexcept
 {
     return m_impl->threeSum1(nums, target);
+}
+
+int ArraySolver::maxArea(std::vector<int>& height) const noexcept
+{
+     return m_impl->maxArea(height);
 }
