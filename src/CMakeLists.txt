@@ -78,6 +78,3 @@ if(MSVC)
             $<TARGET_FILE_DIR:${LIBRARY_TARGET_NAME}>)
   endforeach()
 endif()
-
-
-add_subdirectory(search_autocomplete_system)
