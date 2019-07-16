@@ -22,6 +22,7 @@
 
 #pragma once
 #include <memory>
+#include <string>
 #include "platform.h"
 #include "shared_EXPORTS.h"
 

@@ -1,7 +1,8 @@
 
-#include <string>
-
 #include <glog/logging.h>
+
+#include <functional>
+#include <algorithm>
 
 #include "dpsolver.h"
 
@@ -35,7 +36,7 @@ struct DPSolver::Impl
 
             profitR = recurHelper(weights, profits, capacity, currentIndex + 1);
 
-            return max(profitL, profitR);
+            return std::max(profitL, profitR);
         };
 
         max_profit = recurHelper(weights, profits, capacity, 0);
