@@ -29,12 +29,13 @@ if(BUILD_TESTING)
     hunter_add_package(GTest)
     find_package(GTest CONFIG REQUIRED)
     find_package(GMock CONFIG REQUIRED)
-    include(CTest)
-    add_subdirectory(test)
-
+    
     hunter_add_package(benchmark)
     find_package(benchmark CONFIG REQUIRED)
-    add_subdirectory(bench)
+    
+    include(CTest)
+    add_subdirectory(test)
+    #add_subdirectory(bench)
 endif()
 
 #-----------------------------------------------------------------------------
