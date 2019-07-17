@@ -40,6 +40,34 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Polices
 set(CMAKE_POLICY_DEFAULT_CMP0054 NEW)
 
+####################################################################
+# Benchmark & test options
+if (ENABLE_FRAME_POINTER)
+    # disable frame pointer omission
+    if (MSVC)
+        add_compile_options(/Oy-)
+    else ()
+        add_compile_options(-fno-omit-frame-pointer)
+    endif ()
+endif ()
+
+ # Enable Address Sanitizer
+if (ENABLE_ASAN)
+    add_compile_options(-fsanitize=address)
+    #add_linker_flags(-fsanitize=address)
+endif ()
+
+# we use this to get code coverage
+if (ENABLE_COVERAGE)
+	if (MSVC)
+		add_compile_options(/PROFILE)
+	else ()
+		add_compile_options(-fprofile-arcs -ftest-coverage)
+	endif ()
+endif()
+
+####################################################################
+
 # Warnings
 if(WIN32)
   if(MSVC)
