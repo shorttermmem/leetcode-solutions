@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+cmake_policy(SET CMP0074 NEW)
 
 ### Hunter snapshot that will be used ###
 include("cmake/HunterGate.cmake")
@@ -24,10 +25,11 @@ include(cmake/CommonTools.cmake)
 add_subdirectory(src)
 
 #-----------------------------------------------------------------------------
-option(ENABLE_COVERAGE "Enable Coverall" ON)
-
-#-----------------------------------------------------------------------------
 option(BUILD_TESTING "Build tests" ON)
+option(ENABLE_COVERAGE "Enable Coverall" ON)
+option(ENABLE_FRAME_POINTER "Disable frame pointer omission" ON)
+option(ENABLE_ASAN "Enable Address Sanitizer" OFF)
+
 if(BUILD_TESTING)
     hunter_add_package(GTest)
     find_package(GTest CONFIG REQUIRED)
