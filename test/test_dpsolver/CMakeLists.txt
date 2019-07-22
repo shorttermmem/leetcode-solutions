@@ -16,10 +16,12 @@ target_link_libraries(${TEST_TARGET_NAME}
 PUBLIC  leetcode
 PRIVATE gflags
 PRIVATE GMock::gmock #imply GTest::gtest
+PRIVATE benchmark::benchmark
 )
 
 target_include_directories(${TEST_TARGET_NAME} 
 PRIVATE
+   "${COMMON_DIR}"
    "${CMAKE_CURRENT_LIST_DIR}"
 )
 

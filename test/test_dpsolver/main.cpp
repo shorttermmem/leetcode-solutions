@@ -1,9 +1,4 @@
-#include <iostream>
-
-#include <gflags/gflags.h>
-#include <glog/logging.h>
-#include <gmock/gmock.h>
-
+#include "common.h"
 #include "factory.h"
 #include "dpsolver.h"
 
@@ -33,10 +28,7 @@ TEST(BasicCase, longestParlindrome)
 
 int main(int argc, char** argv){
 
-    google::ParseCommandLineFlags(&argc, &argv, true);
-    google::InitGoogleLogging(argv[0]);
-    google::SetCommandLineOption("GLOG_minloglevel", "2");
-    testing::InitGoogleTest(&argc, argv);
+    google_env_setup(argc, argv);
 
     LS::Factory* factory = nullptr;
     LS_RESULT res = LSInit(LS_FULL_VERSION, &factory);
@@ -44,5 +36,12 @@ int main(int argc, char** argv){
     factory->CreateSolver(LS::DPSolverType, &solver);
     g_solutions = (LS::DPSolver*)solver;
 
-    return RUN_ALL_TESTS();
+    int test_res = 0;
+    if(FLAGS_test)
+        test_res = ::RUN_ALL_TESTS();
+
+    if(FLAGS_bench && 0 == test_res)
+        ::benchmark::RunSpecifiedBenchmarks();
+                                
+    return test_res;
 }

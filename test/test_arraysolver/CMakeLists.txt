@@ -21,6 +21,7 @@ PRIVATE benchmark::benchmark
 
 target_include_directories(${TEST_TARGET_NAME} 
 PRIVATE
+   "${COMMON_DIR}"
    "${CMAKE_CURRENT_LIST_DIR}"
 )
 
