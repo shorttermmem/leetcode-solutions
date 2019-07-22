@@ -53,6 +53,17 @@ PUBLIC
     glog::glog
 )
 
+# we use this to get code coverage
+if (ENABLE_COVERAGE)
+	if (MSVC)
+	   target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE /PROFILE)
+	else ()
+       target_compile_options(${LIBRARY_TARGET_NAME} PRIVATE -fprofile-arcs -ftest-coverage)
+        target_link_libraries(${LIBRARY_TARGET_NAME} PRIVATE --coverage)
+	endif ()
+endif()
+
+
 # Export no symbols by default (if the compiler supports it).
 # This makes e.g. GCC's "visibility behavior" consistent with MSVC's. 
 # On Windows/MSVC this is a noop.

@@ -57,16 +57,6 @@ if (ENABLE_ASAN)
     #add_linker_flags(-fsanitize=address)
 endif ()
 
-# we use this to get code coverage
-if (ENABLE_COVERAGE)
-	if (MSVC)
-		add_compile_options(/PROFILE)
-	else ()
-		add_compile_options(-g -O0 -fprofile-arcs -ftest-coverage)
-    add_link_options(--coverage)
-	endif ()
-endif()
-
 ####################################################################
 
 # Warnings
